@@ -1,0 +1,118 @@
+
+#footer
+    img(src=('../images/pl.png'), class="plus",onclick="plusGroup();")
+
+
+
+script
+
+    function change(x){
+        if(x.style.border!=""){
+            x.style.border="";
+            x.style.background="";
+            }
+        else{
+            x.style.border="solid 1px blue";
+            x.style.background="#f1bf84";
+
+            for(var i=0;i<$(x).siblings.length;i++){
+                    if($(x).siblings()[i].style.border!=""){
+                        $(x).siblings()[i].style.border="";
+                        $(x).siblings()[i].style.background="";
+                        }
+            }
+
+            }
+
+
+
+    }
+    function del(x){
+                    $(x).parent().fadeOut('slow',function(){upFoot();});
+
+    }
+
+    function upFoot(){
+        $('#footer').css("top",$('body').css('height') );
+    }
+
+    var cGroup=-1;
+                function plusGroup(){
+                    cGroup++;
+                    addgroup(cGroup,1,"provaooo","ojsbdg","osjdbg");
+                }
+    function addgroup(z,n, title, ext1, ext2){
+        cGroup=z;
+        for( var i=0;i<n;i++){
+
+                $('body').append(
+
+                '<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><span class="ext i">'+ext1+'</span><div class="sld"><img src="../images/lines.png" class="lines"><div id="sgi'+z+'"><input type="range" name="test" min="-5" max="5" value="0" step="1"></div><img src="../images/lines.png" class="lines"><div class="uno"><div id="sgf'+z+'"><input type="range" name="test" min="-5" max="5" value="0" step="1"></div></div></div><span class="ext f">'+ext2+'</span><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow"><img src="../images/arrow1.png" onclick="change(this)" class="arrow"><img src="../images/arrow2.png" onclick="change(this)" class="arrow"></div></div><br/>'
+
+                );
+                $(".group #sgi"+z+" :range").rangeinput();
+
+                $(".group .uno #sgf"+z+" :range").rangeinput();
+
+                upFoot();
+
+        }
+
+    }
+
+
+
+
+
+    var i=0;
+    var socket = io.connect('http://localhost:3000');
+
+            socket.on('group', function (group) {
+
+                addgroup(i,group[0],group[1],group[2],group[3]);
+
+
+                i++;
+            });
+
+
+    $('#popupDialog').dialog({
+         modal: true,
+         autoOpen: false,
+         buttons: {
+              'Cancel': function() {
+                           $(this).dialog('close');
+                        },
+              'Accept': function() {
+                           $('#mainForm input#target').val( $(this).find('#widgetName').val() );
+                           $(this).dialog('close');
+                        }
+                        }
+    });
+
+    $('#popupButton').click( function() {
+       $('#popupDialog').dialog('open');
+    });
+
+#popupDialog(title="Input a new widget name")
+  p
+     label(for="widgetName")Please input a new widget name:
+     input(type="text", id="widgetName")
+input#popupButton(type="button",value="pop")
+
+//
+    .group
+         h3.tt PROVA
+         span.ext.i pdsogndnrova
+         .sld
+             img.lines(src=('../images/lines.png'));
+             input(type="range", name="test",min="-5",max="5",value="0",step="1")
+             img.lines(src=('../images/lines.png'));
+             .uno
+                  input(type="range", name="test",min="-5",max="5",value="0",step="1")
+         span.ext.f provadslgkndlksnglln
+         #arrows
+             img.arrow(src=('../images/arrow0.png'), onclick="change(this)")
+             img.arrow(src=('../images/arrow1.png'), onclick="change(this)")
+             img.arrow(src=('../images/arrow2.png'), onclick="change(this)")
+    <br/>

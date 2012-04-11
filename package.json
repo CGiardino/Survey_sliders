@@ -1,0 +1,47 @@
+{
+    "name":"http-server",
+    "preferGlobal":"true",
+    "version":"0.0.1",
+    "author":"",
+    "description":"",
+    "contributors":[
+        {
+            "name":"",
+            "email":""
+        }
+    ],
+    "bin":{
+        "http-server":""
+    },
+    "scripts":{
+        "start":"node ",
+        "test":"vows --spec --isolate"
+    },
+    "main":"./lib/http-server",
+    "repository":{
+        "type":"git",
+        "url":"https://github.com/nodejitsu/http-server.git"
+    },
+    "keywords":[
+        "cli",
+        "http",
+        "server"
+    ],
+    "dependencies":{
+        "express":">= 2.3.12",
+        "jade":">= 0.0.1",
+        "socket.io":">=0.0.1",
+        "ya-csv":">=0.0.1"
+    },
+    "noAnalyze":true,
+    "devDependencies":{
+        "vows":"0.5.x",
+        "request":"2.1.x"
+    },
+    "bundleDependencies":[
+    ],
+    "license":"",
+    "engine":{
+        "node":">=0.4"
+    }
+}

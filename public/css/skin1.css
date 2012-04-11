@@ -1,0 +1,192 @@
+
+/* slider root element */
+body{
+    height:100%;
+}
+.slider {
+    background:#3C72E6 url(../images/h30.png)  repeat-x 0 0;
+    height:6px;
+    position:absolute;
+    cursor:pointer;
+    border:1px solid #333;
+    width:400px;
+
+
+
+    margin-top:10px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    -moz-box-shadow:inset 0 0 8px #000;
+}
+.cross{
+    position:relative;
+    width:15px;
+    height: 15px;
+    float:right;
+    margin-right:10px;
+    -moz-box-shadow:0 0 0px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+}
+.cross:hover{
+    cursor:pointer;
+}
+#footer{
+    width:90%;
+    position:absolute;
+    height:50px;
+
+}
+.plus{
+    position:relative;
+    width:35px;
+    height: 35px;
+    float:right;
+    margin-top:10px;
+    -moz-box-shadow:0 0 0px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+
+}
+.plus:hover{
+    cursor:pointer;
+}
+.arrow{
+    position:relative;
+    float:left;
+    width:20px;
+    height: 20px;
+    padding-left: 3px;
+    padding-right: 5px;
+    margin-top:5px;
+
+    margin-left:10px;
+    padding-top:3px;
+    padding-bottom:3px;
+    margin-bottom: 10px;
+
+    -moz-box-shadow:0 0 6px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+
+}
+#arrows{
+
+    width: 50px;
+    height: 150px;
+    float:left;
+    margin-left: 120px;
+    margin-top:-15px;
+    padding-bottom: 20px;
+
+
+}
+.arrow:hover{
+    cursor: pointer;
+}
+.lines{
+    width:402px;
+    height:10px;
+    margin-top: 5px;
+}
+
+/* progress bar (enabled with progress: true) */
+.progress {
+    height:9px;
+    background-color:#C5FF00;
+    display:none;
+    opacity:0.6;
+
+}
+
+/* drag handle */
+.handle {
+    background:#999ebf url(../images/h30.png) repeat-x 0 0;
+    height:15px;
+    width:15px;
+    top:-7px;
+    position:absolute;
+    display:block;
+
+    margin-top:1px;
+    border:1px solid #000;
+    cursor:move;
+    -moz-box-shadow:0 0 6px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+
+}
+.ext{
+    padding-top: 20px;
+    height:30px;
+    float:left;
+    width:100px;
+    overflow: scroll;
+
+
+
+
+
+
+}
+.ext.i{
+    text-align: right;
+    margin-left: 20px;
+}
+.ext.f{
+    text-align: left;
+
+}
+
+.sld{
+    width: 400px;
+    position:relative;
+    padding-right: 20px;
+    padding-left: 20px;
+    float: left;
+
+}
+.group .uno .handle {
+    background:#1ba42e url(../images/h30.png) repeat-x 0 0;
+
+
+}
+.tt{
+    padding-left: 20px;
+
+}
+.group{
+    border: 1px solid;
+    border-color: #3C72E6;
+    -moz-box-shadow:0 0 6px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+    position:relative;
+    display: block;
+    height:200px;
+    width: 870px;
+    padding-top: 10px;
+    padding-left:10px;
+    margin:auto;
+}
+/* the input field */
+.range {
+    border:1px inset #ddd;
+    position:relative;
+    margin-left:550px;
+    font-size:20px;
+    float:left;
+    text-align:center;
+    width:50px;
+    margin-top:-3px;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+
+
+}
+
