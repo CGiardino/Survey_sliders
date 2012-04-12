@@ -25,7 +25,7 @@ var app = express.createServer(
     , express.cookieParser()
     , express.session({ secret:'desrever'})
 ),io = io.listen(app);
-
+io.set('log level', 1);
 
 app.configure(function () {
     app.set('views', __dirname + '/views');
@@ -42,6 +42,10 @@ function soc(){
 
         for(var i=0;i<group.length;i++)
             socket.emit('group', group[i]);
+
+        socket.on('addgroup',function(data){
+            console.log(data[0],data[1],data[2]);
+        })
 
 
 

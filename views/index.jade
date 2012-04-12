@@ -1,6 +1,36 @@
+script
+    $(document).ready(function() {
+            $('#pl').click(function() {
+                $.blockUI({ message: $('#loginForm') });
+            $('#sbm').click($.unblockUI);
+
+            $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+            $('.blockOverlay').css('cursor','pointer');
+            $('#loginForm').css('cursor','default');
+            });
+
+        });
+
+#loginForm(style="display:none; height:165px")
+    h3(style="text-align:center") Fill the form
+
+    #content(style="text-align:left; margin-left:10px")
+
+        span Title
+        input(type="text",id="agt",style="margin-left:85px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+        br
+        span Left Extreme
+        input(type="text",id="agl",style="margin-left:21px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+        br
+        span Right Extreme
+        input(type="text",id="agr",style="margin-left:10px",,onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+    br
+    input(type="submit", id="sbm", value="Add",style="align:center; width:100px; height: 50px; cursor:pointer", onclick="addNew($('#agt').val(),$('#agl').val(),$('#agr').val())")
 
 #footer
-    img(src=('../images/pl.png'), class="plus",onclick="plusGroup();")
+    img(src=('../images/pl.png'), class="plus", id="pl")
+
+
 
 
 
@@ -23,10 +53,8 @@ script
             }
 
             }
-
-
-
     }
+
     function del(x){
                     $(x).parent().fadeOut('slow',function(){upFoot();});
 
@@ -61,9 +89,6 @@ script
     }
 
 
-
-
-
     var i=0;
     var socket = io.connect('http://localhost:3000');
 
@@ -76,29 +101,13 @@ script
             });
 
 
-    $('#popupDialog').dialog({
-         modal: true,
-         autoOpen: false,
-         buttons: {
-              'Cancel': function() {
-                           $(this).dialog('close');
-                        },
-              'Accept': function() {
-                           $('#mainForm input#target').val( $(this).find('#widgetName').val() );
-                           $(this).dialog('close');
-                        }
-                        }
-    });
+    function addNew(title, left, right){
 
-    $('#popupButton').click( function() {
-       $('#popupDialog').dialog('open');
-    });
+            socket.emit('addgroup', [title,left,right]);
+            addgroup(i,1,title,left,right);
+            i++;
+        };
 
-#popupDialog(title="Input a new widget name")
-  p
-     label(for="widgetName")Please input a new widget name:
-     input(type="text", id="widgetName")
-input#popupButton(type="button",value="pop")
 
 //
     .group
