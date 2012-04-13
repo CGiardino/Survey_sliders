@@ -11,25 +11,34 @@ script
 
         });
 
-#loginForm(style="display:none; height:165px")
-    h3(style="text-align:center") Fill the form
+#wrapper
+    #loginForm(style="display:none; height:165px")
+        h3(style="text-align:center") Fill the form
 
-    #content(style="text-align:left; margin-left:10px")
+        #content(style="text-align:left; margin-left:10px")
 
-        span Title
-        input(type="text",id="agt",style="margin-left:85px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+            span Title
+            input(type="text",id="agt",style="margin-left:72px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+            br
+            span Left Extreme
+            input(type="text",id="agl",style="margin-left:21px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+            br
+            span Right Extreme
+            input(type="text",id="agr",style="margin-left:10px",,onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
         br
-        span Left Extreme
-        input(type="text",id="agl",style="margin-left:21px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
-        br
-        span Right Extreme
-        input(type="text",id="agr",style="margin-left:10px",,onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
-    br
-    input(type="submit", id="sbm", value="Add",style="align:center; width:100px; height: 50px; cursor:pointer", onclick="addNew($('#agt').val(),$('#agl').val(),$('#agr').val())")
+        input(type="submit", id="sbm", value="Add",style="align:center; width:100px; height: 50px; cursor:pointer", onclick="addNew($('#agt').val(),$('#agl').val(),$('#agr').val())")
+    #steps
+        form#formElem(name="formElem", action="", method="post")
 
-#footer
-    img(src=('../images/pl.png'), class="plus", id="pl")
 
+
+
+                //
+                    #footer
+                        img(src=('../images/pl.png'), class="plus", id="pl")
+
+    #navigation(style="display:none;")
+        ul(id="nvList")
 
 
 
@@ -62,22 +71,39 @@ script
 
     function upFoot(){
         $('#footer').css("top",$('body').css('height') );
+
     }
 
     var cGroup=-1;
-                function plusGroup(){
-                    cGroup++;
-                    addgroup(cGroup,1,"provaooo","ojsbdg","osjdbg");
-                }
-    function addgroup(z,n, title, ext1, ext2){
+    function plusGroup(){
+        cGroup++;
+        addgroup(1,cGroup,1,"provaooo","ojsbdg","osjdbg");
+    }
+    function addstep(st,legend){
+        $('#formElem').append('<fieldset class="step" id="step'+st+'">')
+        $('#step'+st).append('<div id="footer"><img src="../images/pl.png" id="pl" class="plus"/></div><legend>'+legend+'</legend>');
+
+        if(st==0){
+            $('#nvList').append('<li class="selected"><a href="#">'+legend+'</a></li>');
+            $('#navigation').hide().fadeIn(4500);
+            $('#step'+st).css("float","left");
+
+        }
+        else{
+            $('#nvList').append('<li><a href="#">'+legend+'</a></li>');
+
+
+            $('#step'+st).css("float","right");
+
+        }
+    }
+    function addgroup(step,z,n, title, ext1, ext2){
         cGroup=z;
+
         for( var i=0;i<n;i++){
 
-                $('body').append(
-
-                '<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><span class="ext i">'+ext1+'</span><div class="sld"><img src="../images/lines.png" class="lines"><div id="sgi'+z+'"><input type="range" name="test" min="-5" max="5" value="0" step="1"></div><img src="../images/lines.png" class="lines"><div class="uno"><div id="sgf'+z+'"><input type="range" name="test" min="-5" max="5" value="0" step="1"></div></div></div><span class="ext f">'+ext2+'</span><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow"><img src="../images/arrow1.png" onclick="change(this)" class="arrow"><img src="../images/arrow2.png" onclick="change(this)" class="arrow"></div></div><br/>'
-
-                );
+                var item=$('<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><span class="ext i">'+ext1+'</span><div class="sld"><img src="../images/lines.png" class="lines"><div id="sgi'+z+'"><input type="range" name="test" min="-5" max="5" value="0" step="1"></div><img src="../images/lines.png" class="lines"><div class="uno"><div id="sgf'+z+'"><input type="range" name="test" min="-5" max="5" value="0" step="1"></div></div></div><span class="ext f">'+ext2+'</span><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow"><img src="../images/arrow1.png" onclick="change(this)" class="arrow"><img src="../images/arrow2.png" onclick="change(this)" class="arrow"></div></div>').hide().fadeIn(2000);
+                $('#step'+step).append(item);
                 $(".group #sgi"+z+" :range").rangeinput();
 
                 $(".group .uno #sgf"+z+" :range").rangeinput();
@@ -89,12 +115,16 @@ script
     }
 
 
+    addstep(0,"prova");
+    addstep(1,"oodojsgn");
+
     var i=0;
     var socket = io.connect('http://localhost:3000');
 
             socket.on('group', function (group) {
+                console.log(i);
 
-                addgroup(i,group[0],group[1],group[2],group[3]);
+                addgroup(0,i,group[0],group[1],group[2],group[3]);
 
 
                 i++;
@@ -104,7 +134,8 @@ script
     function addNew(title, left, right){
 
             socket.emit('addgroup', [title,left,right]);
-            addgroup(i,1,title,left,right);
+            addgroup(1,i,1,title,left,right);
+
             i++;
         };
 

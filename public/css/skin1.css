@@ -1,8 +1,6 @@
 
 /* slider root element */
-body{
-    height:100%;
-}
+
 .slider {
     background:#3C72E6 url(../images/h30.png)  repeat-x 0 0;
     height:6px;
@@ -43,7 +41,8 @@ body{
     width:35px;
     height: 35px;
     float:right;
-    margin-top:10px;
+    margin-top:-90px;
+    margin-right:-20px;
     -moz-box-shadow:0 0 0px #000;
     -webkit-box-shadow:0 0 6px #000;
     -moz-border-radius:14px;
@@ -160,6 +159,7 @@ body{
 
 }
 .group{
+
     border: 1px solid;
     border-color: #3C72E6;
     -moz-box-shadow:0 0 6px #000;
@@ -171,8 +171,12 @@ body{
     height:200px;
     width: 870px;
     padding-top: 10px;
+
     padding-left:10px;
-    margin:auto;
+
+
+    margin-top: 20px;
+
 }
 /* the input field */
 .range {
