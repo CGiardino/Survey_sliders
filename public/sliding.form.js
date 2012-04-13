@@ -46,6 +46,10 @@ $(function() {
 		in the current variable	
 		*/
 		current = $this.parent().index() + 1;
+        mycur=current-1;
+        mygroup=$('#step'+mycur).find('.group:visible').length;
+       // $('#steps').css("height",(mygroup*212+80)+"px");
+
 		/*
 		animate / slide to the next or to the corresponding
 		fieldset. The order of the links in the navigation
@@ -57,10 +61,11 @@ $(function() {
 		before the form slided
 		*/
         $('#steps').stop().animate({
-            marginLeft: '-' + widths[current-1] + 'px'
+            marginLeft: '-' + widths[current-1] + 'px',
+            height:(mygroup*230+50)+"px"
 
         },500,function(){
-
+            console.log((mygroup*230+50));
 			/*if(current == fieldsetCount)
 				validateSteps();
 			else
