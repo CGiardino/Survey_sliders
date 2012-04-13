@@ -58,6 +58,7 @@ $(function() {
 		*/
         $('#steps').stop().animate({
             marginLeft: '-' + widths[current-1] + 'px'
+
         },500,function(){
 
 			/*if(current == fieldsetCount)

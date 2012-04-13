@@ -39,6 +39,7 @@ script
 
     #navigation(style="display:none;")
         ul(id="nvList")
+        img(src="../images/pl.png", id="pl", class="plus")
 
 
 
@@ -70,7 +71,7 @@ script
     }
 
     function upFoot(){
-        $('#footer').css("top",$('body').css('height') );
+        $('#footer').css("top",$('#steps').css('height') );
 
     }
 
@@ -81,19 +82,19 @@ script
     }
     function addstep(st,legend){
         $('#formElem').append('<fieldset class="step" id="step'+st+'">')
-        $('#step'+st).append('<div id="footer"><img src="../images/pl.png" id="pl" class="plus"/></div><legend>'+legend+'</legend>');
+        $('#step'+st).append('<legend>'+legend+'</legend>');
 
         if(st==0){
             $('#nvList').append('<li class="selected"><a href="#">'+legend+'</a></li>');
-            $('#navigation').hide().fadeIn(4500);
-            $('#step'+st).css("float","left");
+            $('#navigation').hide().fadeIn(3500);
+
 
         }
         else{
             $('#nvList').append('<li><a href="#">'+legend+'</a></li>');
 
 
-            $('#step'+st).css("float","right");
+
 
         }
     }

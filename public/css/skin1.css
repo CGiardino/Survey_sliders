@@ -30,19 +30,18 @@
 .cross:hover{
     cursor:pointer;
 }
-#footer{
-    width:90%;
-    position:absolute;
-    height:50px;
 
-}
 .plus{
     position:relative;
     width:35px;
     height: 35px;
     float:right;
-    margin-top:-90px;
-    margin-right:-20px;
+
+    z-index: 1;
+    opacity: 1;
+    margin-top:5px;
+    margin-right: 10px;
+    background-color: #f9f9f9;
     -moz-box-shadow:0 0 0px #000;
     -webkit-box-shadow:0 0 6px #000;
     -moz-border-radius:14px;
