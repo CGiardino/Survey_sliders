@@ -122,17 +122,11 @@
 
 }
 .ext{
-    padding-top: 20px;
-    height:30px;
+    margin-top: 30px;
+    height:50px;
     float:left;
     width:100px;
-    overflow: scroll;
-
-
-
-
-
-
+    overflow:auto;
 }
 .ext.i{
     text-align: right;
