@@ -1,4 +1,6 @@
-$(function() {
+function loadSlid() {
+
+
 	/*
 	number of fieldsets
 	*/
@@ -48,6 +50,7 @@ $(function() {
 		current = $this.parent().index() + 1;
         mycur=current-1;
         mygroup=$('#step'+mycur).find('.group:visible').length;
+        $('html body').animate({ scrollTop: 0 });
        // $('#steps').css("height",(mygroup*212+80)+"px");
 
 		/*
@@ -62,10 +65,10 @@ $(function() {
 		*/
         $('#steps').stop().animate({
             marginLeft: '-' + widths[current-1] + 'px',
-            height:(mygroup*230+50)+"px"
+            height:(mygroup*232+50)+"px"
 
         },500,function(){
-            console.log((mygroup*230+50));
+
 			/*if(current == fieldsetCount)
 				validateSteps();
 			else
@@ -137,6 +140,7 @@ $(function() {
 		
 		return error;
 	}
+
 	
 	/*
 	if there are errors don't allow the user to submit
@@ -147,4 +151,4 @@ $(function() {
 			return false;
 		}	
 	});
-});
+}
