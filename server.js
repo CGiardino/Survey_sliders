@@ -60,14 +60,17 @@ function soc(){
 
     io.sockets.on('connection', function (socket) {
 
-        for(var i=0;i<pages.length;i++){
-            socket.emit('step', pages[i]);
+        socket.on('init',function(){
+            for(var i=0;i<pages.length;i++){
+                socket.emit('step', pages[i]);
 
-        }
-        for(var i=0;i<group.length;i++){
-            socket.emit('group', group[i]);
+            }
+            for(var i=0;i<group.length;i++){
+                socket.emit('group', group[i]);
 
-        }
+            }
+        });
+
         socket.on('addgroup',function(data){
             console.log(data[0],data[1],data[2]);
         })

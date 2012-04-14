@@ -150,10 +150,14 @@ script
 
 
 
-
+    var connected=false;
     var gi=0;
     var socket = io.connect();
-
+            if(!connected){
+                 socket.emit('init',"init");
+                 connected=true;
+                 console.log(connected);
+                 }
            socket.on('step',function(step){
                 addstep(step[0],step[1]);
 
