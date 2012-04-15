@@ -19,14 +19,14 @@ var reader2 = csv.createCsvFileReader('csv/pages.csv', {
 var z=0;
 var z2=0;
 
-    reader.addListener('data', function(data) {
+reader.addListener('data', function(data) {
 
 
     group[z]=data;
 
     z++;
 
-    });
+});
 
 
 
@@ -59,8 +59,7 @@ app.configure(function () {
 function soc(){
 
     io.sockets.on('connection', function (socket) {
-
-        socket.on('init',function(){
+        socket.on("init",function(data){
             for(var i=0;i<pages.length;i++){
                 socket.emit('step', pages[i]);
 
@@ -92,4 +91,4 @@ app.get('/', function (req, res) {
 
 });
 
-app.listen(3000);
+app.listen(8080);

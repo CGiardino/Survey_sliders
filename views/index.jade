@@ -152,7 +152,11 @@ script
 
 
     var gi=0;
-    var socket = io.connect('http://80.78.216.153:3000');
+    var socket = io.connect();
+
+     socket.emit('init',"init");
+
+
 
            socket.on('step',function(step){
                 addstep(step[0],step[1]);
