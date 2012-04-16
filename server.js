@@ -46,7 +46,7 @@ var z2=0;
 reader.addListener('data', function(data) {
 
    if(data!=""){
-       group[z]=data;
+       group[z]=[z,data[0],data[1],data[2],data[3]];
 
        z++;
    }

@@ -14,6 +14,8 @@ script
 
             });
 
+            var max = $( ".slider" ).slider( "option", "max" );
+
         });
     function updateSteps(st){
 
@@ -42,7 +44,7 @@ script
             input(type="text",id="agl",style="margin-left:21px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
             br
             span Right Extreme
-            input(type="text",id="agr",style="margin-left:10px",,onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+            input(type="text",id="agr",style="margin-left:10px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
         br
         input(type="submit", id="sbm", value="Add",style="align:center; width:100px; height: 50px; cursor:pointer", onclick="addNew($('#agt').val(),$('#agl').val(),$('#agr').val())")
     #steps
@@ -62,42 +64,45 @@ script
 
 
 
+#delwin(style="display:none; height:100px", onkeydown="if (event.keyCode == 13) document.getElementById('no').click()")
+               h3(style="text-align:center") Warning
 
+               #content(style="text-align:center;")
+
+                   span  Are you sure to delete this element?
+
+               #btn(style="margin-top:20px")
+
+                    input(type="button", id="yes", value="Yes",style="align:center; width:100px; height: 70px; cursor:pointer;outline:none")
+                    input(type="button", id="no", value="Cancel",style="align:center; width:100px; height: 70px; cursor:pointer; margin-left:20px;")
 
 script
 
-    function change(x){
-        if(x.style.border!=""){
-            x.style.border="";
-            x.style.background="";
-            }
-        else{
-            x.style.border="solid 1px blue";
-            x.style.background="#f1bf84";
 
-            for(var i=0;i<$(x).siblings.length;i++){
-                    if($(x).siblings()[i].style.border!=""){
-                        $(x).siblings()[i].style.border="";
-                        $(x).siblings()[i].style.background="";
-                        }
-            }
-
-            }
-    }
 
     function del(x){
-        $(x).parent().fadeOut('slow',function(){upFoot();});
-        $('#steps').stop().animate({
 
-                                height:($('#steps').height()-230)+"px"
-                            },500,function(){
-                            });
+                $.blockUI({ message: $('#delwin') });
+                $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+                            $('.blockOverlay').css('cursor','pointer');
+                            $('#delwin').css('cursor','pointer');
+                $('#yes').click($.unblockUI);
+                $('#yes').click(function(){
+
+                    $(x).parent().fadeOut('slow',function(){});
+                    $('#steps').stop().animate({
+
+                                            height:($('#steps').height()-230)+"px"
+                                        },500,function(){
+                                        });
+                    socket.emit('delGroup',$(x).parent().attr('id').substring(1));
+
+                });
+
+                $('#no').click($.unblockUI);
     }
 
-    function upFoot(){
 
-
-    }
 
     var cGroup=-1;
     function plusGroup(){
@@ -122,42 +127,83 @@ script
 
         }
     }
-    function mng(x){
-        if(x.attr("checked"))
-            $($('#'+x.val())).css("visibility","hidden");
-        else
-            $($('#'+x.val())).css("visibility","visible");
-    }
-    function addgroup(step,z,n, title, ext1, ext2){
+
+    function addgroup(z,step, title, ext1, ext2){
         cGroup=z;
 
-        for( var i=0;i<n;i++){
 
-                var item=$('<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><span class="ext i">'+ext1+'</span><div class="sld"><div id="sgi'+z+'"><img src="../images/lines.png" class="lines" ><input type="range" name="test" min="-5" max="5" value="0" step="1"></div><div class="uno"><div id="sgf'+z+'"><img src="../images/lines.png" class="lines"><input type="range" name="test" min="-5" max="5" value="0" step="1"></div></div></div><span class="ext f">'+ext2+'</span><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow"><img src="../images/arrow1.png" onclick="change(this)" class="arrow"><img src="../images/arrow2.png" onclick="change(this)" class="arrow"></div><div id="ckbox"><input type="checkbox" name="valido" value="sgi'+z+'" onclick="mng($(this))"><input type="checkbox" name="valido" value="sgf'+z+'" onclick="mng($(this))"></div></div>').hide().fadeIn(2000);
+
+                var item=$('<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><span class="ext i">'+ext1+'</span><div class="sld"><div id="sgi'+z+'"><img src="../images/lines.png" class="lines" ><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="rchange(this);"></div><div class="uno"><div id="sgf'+z+'"><img src="../images/lines.png" class="lines"><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="erchange(this);"></div></div></div><span class="ext f">'+ext2+'</span><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow" id="a0"><img src="../images/arrow1.png" onclick="change(this)" class="arrow" id="a1"><img src="../images/arrow2.png" onclick="change(this)" class="arrow" id="a2"></div><div id="ckbox"><input type="checkbox" name="valido" value="sgi'+z+'" onclick="mng($(this))"><input type="checkbox" name="valido" value="sgf'+z+'" onclick="mng($(this))"></div></div>').hide().fadeIn(2000);
                 $('#step'+step).append(item);
                 $(".group #sgi"+z+" :range").rangeinput();
 
                 $(".group .uno #sgf"+z+" :range").rangeinput();
 
-                upFoot();
+
                 z++;
                 gi++;
-        }
+
+
 
         updateSteps(step);
+
         //$('#steps').css("height", $('#steps').height()+230 +"px");
     }
 
 
 
-    var connected=false;
+    function rchange(x){
+        socket.emit('upgroupI',[$(x).parent().attr('id').substring(3), $(x).val()]);
+
+    }
+    function erchange(x){
+        socket.emit('upgroupF',[$(x).parent().attr('id').substring(3), $(x).val()]);
+    }
+    function mng(x){
+            if(x.attr("checked")){
+                $($('#'+x.val())).css("visibility","hidden");
+                console.log($(x).parent());
+                if($(x).val().substring(2,3)=="i")
+                    socket.emit('upgroupI',[$(x).val().substring(3), -100]);
+                else
+                    socket.emit('upgroupF',[$(x).val().substring(3), -100]);
+                }
+            else{
+                $($('#'+x.val())).css("visibility","visible");
+                if($(x).val().substring(2,3)=="i")
+                    socket.emit('upgroupI',[$(x).val().substring(3), 0]);
+                else
+                    socket.emit('upgroupF',[$(x).val().substring(3), 0]);
+                }
+        }
+    function change(x){
+            if(x.style.border!=""){
+                x.style.border="";
+                x.style.background="";
+                socket.emit('arr',[$(x).parent().parent().attr('id').substring(1), -100]);
+                }
+            else{
+                x.style.border="solid 1px blue";
+
+                socket.emit('arr',[$(x).parent().parent().attr('id').substring(1),$(x).attr('id').substring(1)]);
+                x.style.background="#f1bf84";
+
+                for(var i=0;i<$(x).siblings.length;i++){
+                        if($(x).siblings()[i].style.border!=""){
+                            $(x).siblings()[i].style.border="";
+                            $(x).siblings()[i].style.background="";
+                            }
+                }
+
+                }
+        }
     var gi=0;
     var socket = io.connect();
-            if(!connected){
-                 socket.emit('init',"init");
-                 connected=true;
-                 console.log(connected);
-                 }
+
+     socket.emit('init',"");
+
+
+
            socket.on('step',function(step){
                 addstep(step[0],step[1]);
 
@@ -165,24 +211,24 @@ script
             socket.on('group', function (group) {
 
 
-                addgroup(group[0],gi,group[1],group[2],group[3],group[4]);
+                addgroup(group[0],group[1],group[2],group[3],group[4]);
                 var it=    $('#nvList').find('.selected');
                 var c=$('li').index(it);
                 if(c>-1)
                     setTimeout(updateSteps(c),2000);
 
-                gi++;
+
             });
 
 
     function addNew(title, left, right){
             var it=    $('#nvList').find('.selected');
-            socket.emit('addgroup', [title,left,right]);
-            addgroup($('li').index(it),gi,1,title,left,right);
+            socket.emit('addgroup', [gi,$('li').index(it),title,left,right]);
+            addgroup(gi,$('li').index(it),title,left,right);
 
 
 
-            gi++;
+
         };
 
     setTimeout(loadSlid,2000);

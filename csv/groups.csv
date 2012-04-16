@@ -1,20 +1,25 @@
-
-
-0,0, @#&amp GHGHGHGHGHGHGH, sdjbgdjbgjdksbgkjdsbg,tantissimissimo
-1,0, @#&amp GHGHGHGHGHGHGH, sdjbgdjbgjdksbgkjdsbg,tantissimissimo
-2,1, @#&amp PROVA, pppp,2222
-3,0, @#&amp GHGHGHGHGHGHGH, sdjbgdjbgjdksbgkjdsbg,tantissimissimo
-4,1, @#&amp PROVA, pppp,2222
-5,0, @#&amp GHGHGHGHGHGHGH, sdjbgdjbgjdksbgkjdsbg,tantissimissimo
-6,1, @#&amp PROVA, pppp,2222
-7,0, @#&amp GHGHGHGHGHGHGH, sdjbgdjbgjdksbgkjdsbg,tantissimissimo
-8,3, @#&amp GHGHGHGHGHGHGH, sdjbgdjbgjdksbgkjdsbg,tantissimissimo
-9,3, @#&amp PROVA, pppp,2222
-10,3, @#&amp GHGHGHGHGHGHGH, sdjbgdjbgjdksbgkjdsbg,tantissimissimo
-11,4,altro,min,max
-12,5,sottostante,min,max
-13,5,microfono,min,max
-14,1,megafanon,min,max
-15,6,tibalenatolo,min,max
-16,6,cuor di leone indegno,min,max
-17,7,farfalla maestosa,min,max
+0,Design Artifacts ,min,max
+0,Code Documentation ,min,max      
+0,Test Case,min,max  
+0,Code coverage,min,max  
+1,Elicitation report ,min,max      
+1,Traceability ,min,max      
+2,User experience ,min,max      
+2,Maintainability ,min,max      
+2,Portability,min,max      
+2,Performance ,min,max      
+3,User experience ,min,max      
+3,Maintainability ,min,max      
+3,Portability,min,max    
+3,Performance ,min,max      
+4,User experience ,min,max      
+4,Maintainability ,min,max      
+4,Portability,min,max      
+4,Performance ,min,max      
+5,User experience ,min,max      
+5,Maintainability ,min,max      
+5,Portability,min,max  
+5,Performance ,min,max 
+6,Internazionalization ,min,max 
+6,Time-to-Market ,min,max 
+6,Coffee quality,min,max 

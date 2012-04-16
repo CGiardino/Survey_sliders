@@ -33,7 +33,8 @@ function loadSlid() {
 	show the navigation bar
 	*/
 	$('#navigation').show();
-	
+	var mycur;
+    var mygroup;
 	/*
 	when clicking on a navigation link 
 	the form slides to the corresponding fieldset
@@ -41,6 +42,9 @@ function loadSlid() {
     $('#navigation a').bind('click',function(e){
 		var $this	= $(this);
 		var prev	= current;
+        $(this).closest('ul').find('.selected a').css('background-image',"url('images/checked.png')");
+        $(this).closest('ul').find('.selected a').css('background-repeat',"no-repeat");
+
 		$this.closest('ul').find('li').removeClass('selected');
         $this.parent().addClass('selected');
 		/*
