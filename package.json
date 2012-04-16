@@ -31,7 +31,8 @@
         "express":">= 2.3.12",
         "jade":">= 0.0.1",
         "socket.io":">=0.0.1",
-        "ya-csv":">=0.0.1"
+        "ya-csv":">=0.0.1",
+        "mongoose": ">=0.0.1"
     },
     "noAnalyze":true,
     "devDependencies":{
