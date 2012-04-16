@@ -8,9 +8,6 @@
     cursor:pointer;
     border:1px solid #333;
     width:400px;
-
-
-
     margin-top:0px;
     -moz-border-radius:5px;
     -webkit-border-radius:5px;
@@ -96,10 +93,10 @@
 
 /* progress bar (enabled with progress: true) */
 .progress {
-    height:9px;
+    height:30px;
     background-color:#C5FF00;
-    display:none;
-    opacity:0.6;
+    margin-top: -25px;
+    opacity:0;
 
 }
 
