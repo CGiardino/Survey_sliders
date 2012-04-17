@@ -13,14 +13,16 @@ var GroupSchema= new Schema({
       id: String
     , sessName: String
     , date: Date
-    , idg: Number
-    , idp: Number
-    , tit: String
-    , ext1: String
-    , ext2: String
-    , val1: Number
-    , val2: Number
-    , arr: Number
+    ,groups:[{
+          idg: Number
+        , idp: Number
+        , tit: String
+        , ext1: String
+        , ext2: String
+        , val1: Number
+        , val2: Number
+        , arr: Number
+    }]
 });
 
 var PageSchema= new Schema({
@@ -92,34 +94,38 @@ var Group=mongoose.model('groups', GroupSchema);
 
 function saveGroup(id){
 
+    var mongogroup=new Group();
+    mongogroup.id=id;
 
     for( var j=0;j<group.length;j++){
 
+        var gg={
 
-
-            var group_data={
-                id:id
-                , sessName: ""
-                ,idg:group[j][0]
+                idg:group[j][0]
                 ,idp: group[j][1]
-                , tit: group[j][2]
-                , ext1: group[j][3]
-                , ext2: group[j][4]
+                ,tit: group[j][2]
+                ,ext1: group[j][3]
+                ,ext2: group[j][4]
                 ,val1:0
                 ,val2:0
                 ,arr:-100
 
             }
-            var mongogroup=new Group(group_data);
 
-            mongogroup.save(function(err, mongogroup){
-                if(err){
-                    throw err;
-                    console.log(err);
-                }
-            });
+        mongogroup.groups.push(gg);
+    }
+
+    mongogroup.save(function(err, mongogroup){
+        if(err){
+            throw err;
+            console.log(err);
+
         }
-        console.log(id+" /groups saved")
+        else{
+            console.log(id+" /groups saved");
+        }
+    });
+
 
 
 
@@ -176,49 +182,41 @@ function soc(){
 
 
 
-            var group_data={
-                id:socket.id
-                , sessName: ""
-                ,idg: data[0]
+            var gg={
+                idg: data[0]
                 ,idp: data[1]
-                , tit: data[2]
-                , ext1: data[3]
-                , ext2: data[4]
+                ,tit: data[2]
+                ,ext1: data[3]
+                ,ext2: data[4]
                 ,val1:0
                 ,val2:0
                 ,arr:-100
-
             }
 
 
-            var mongogroup=new Group(group_data);
-
-            mongogroup.save(function(err, mongogroup){
-                if(err){
-                    throw err;
-                    console.log(err);
-                }else{
-
-                    console.log(socket.id+' /group: '+ data[0]+' saved!');
-                }
-            });
-
-        });
-
-
-        socket.on('upgroupI',function(data){
-
-            Group.update({id:socket.id,idg:data[0]}, {val1:data[1]}, {upsert: true},function(err){
+            Group.update({id:socket.id,'groups.idg':data[0]}, {$push:{groups:gg}}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
                 else
                     console.log(socket.id+' /updated slider 1 data: '+ data);
             });
+
         });
+
+
+            socket.on('upgroupI',function(data){
+                console.log(data+'/'+socket.id);
+                Group.findOne([{"groups.idg":0},{id:socket.id}],function(err,group){
+                    group.groups.val1=data[1];
+                    group.save(function(err){
+
+                    });
+                });
+            });
 
         socket.on('upgroupF',function(data){
 
-            Group.update({id:socket.id,idg:data[0]}, {val2:data[1]}, {upsert: true},function(err){
+            Group.update([{"groups.idg":0},{id:socket.id}], {'groups.$.val2':data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
                 else
@@ -228,7 +226,7 @@ function soc(){
 
         socket.on('arr',function(data){
 
-            Group.update({id:socket.id,idg:data[0]}, {arr:data[1]}, {upsert: true},function(err){
+            Group.update({id:socket.id,'groups.idg':data[0]}, {'groups.arr':data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
                 else
@@ -238,7 +236,7 @@ function soc(){
 
         socket.on('delGroup',function(data){
 
-            Group.update({id:socket.id,idg:data},{arr:-100,val1:-100,val2:-100}, {upsert: true},function(err){
+            Group.update({id:socket.id,idg:data},{'groups.arr':-100,'groups.val1':-100,'groups.val2':-100}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
                 else
@@ -248,7 +246,8 @@ function soc(){
 
         socket.on('sessionName',function(data){
             var now = new Date();
-            Group.update({id:socket.id}, {sessName:data, date:now}, {upsert: true,multi: true},function(err){
+
+            Group.update({id:socket.id}, {sessName:data, date:now}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
                 else

@@ -196,9 +196,9 @@ script
                 $($('#'+x.val())).css("visibility","hidden");
 
                 if($(x).val().substring(2,3)=="i")
-                    socket.emit('upgroupI',[$(x).val().substring(3), -100]);
+                    socket.emit('upgroupI',[$(x).val().substring(3), null]);
                 else
-                    socket.emit('upgroupF',[$(x).val().substring(3), -100]);
+                    socket.emit('upgroupF',[$(x).val().substring(3), null]);
                 }
             else{
                 $($('#'+x.val())).css("visibility","visible");
@@ -212,7 +212,7 @@ script
             if(x.style.border!=""){
                 x.style.border="";
                 x.style.background="";
-                socket.emit('arr',[$(x).parent().parent().attr('id').substring(1), -100]);
+                socket.emit('arr',[$(x).parent().parent().attr('id').substring(1), null]);
                 }
             else{
                 x.style.border="solid 1px blue";
@@ -232,7 +232,7 @@ script
     var gi=0;
     var socket = io.connect();
 
-    socket.on('disconnect', function() {
+    /* socket.on('disconnect', function() {
            setTimeout("alert('Attention: Lost connection!')",100);
        });
 
@@ -240,7 +240,7 @@ script
     socket.on('close',function(){
         setTimeout("alert('Attention: Lost connection!')",100);
     });
-
+    */
      socket.emit('init',"");
 
 
