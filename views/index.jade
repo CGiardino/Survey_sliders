@@ -174,7 +174,7 @@ script
     function mng(x){
             if(x.attr("checked")){
                 $($('#'+x.val())).css("visibility","hidden");
-                console.log($(x).parent());
+
                 if($(x).val().substring(2,3)=="i")
                     socket.emit('upgroupI',[$(x).val().substring(3), -100]);
                 else
