@@ -6,6 +6,7 @@ script
 
 
             $('#pl').click(function() {
+                $('#loginForm').find('input:text').val('');
                 $.blockUI({ message: $('#loginForm') });
 
             $('#sbm').click($.unblockUI);

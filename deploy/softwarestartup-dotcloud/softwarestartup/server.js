@@ -28,7 +28,7 @@ var PageSchema= new Schema({
 });
 
 
-mongoose.connect('mongodb://root:a0k4f8mvW8p2i8NZngZm@softwarestartup-cgiardino-tradeoffs-0.dotcloud.com:26255');
+mongoose.connect(' mongodb://root:a0k4f8mvW8p2i8NZngZm@softwarestartup-cgiardino-tradeoffs-0.dotcloud.com:26255/admin');
 
 
 var reader = csv.createCsvFileReader('csv/groups.csv', {
