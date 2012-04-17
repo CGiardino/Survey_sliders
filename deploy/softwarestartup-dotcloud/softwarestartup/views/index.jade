@@ -1,11 +1,12 @@
 script
     $(document).ready(function() {
 
-            $.blockUI({message:$('#loading')});
-            setTimeout($.unblockUI, 1500);
+            $.blockUI({message:$('#insertName')});
 
 
             $('#pl').click(function() {
+
+                $('#loginForm').find('input:text').val('');
                 $.blockUI({ message: $('#loginForm') });
 
             $('#sbm').click($.unblockUI);
@@ -33,8 +34,26 @@ script
 
 
     }
-#loading(style="width:300px; display:none")
-    span loading...
+    function setSessionName(x){
+            var value=$(x).val();
+            if(value!=""){
+                $('#sess').html($(x).val());
+                $.unblockUI();
+                socket.emit("sessionName",value);
+
+            }
+        }
+#loading(style="width:300px; display:none; ")
+     span loading...
+#insertName(style="width:300px; display:none; ")
+     tr
+                        td
+                            span Insert session name:
+                        td
+                            input(type="text",id="sessName",onkeydown="if (event.keyCode == 13 ) setSessionName(this)",style="margin-left:10px;")
+#header
+    #sessN
+        span#sess
 #wrapper
     #loginForm(style="display: none; height:180px;width:300px;")
         h3(style="text-align:center") Fill the form
@@ -174,7 +193,7 @@ script
     function mng(x){
             if(x.attr("checked")){
                 $($('#'+x.val())).css("visibility","hidden");
-                console.log($(x).parent());
+
                 if($(x).val().substring(2,3)=="i")
                     socket.emit('upgroupI',[$(x).val().substring(3), -100]);
                 else
@@ -211,6 +230,13 @@ script
         }
     var gi=0;
     var socket = io.connect();
+    socket.on('disconnect', function() {
+        alert('Attention: Lost connection!');
+    });
+
+    socket.on('close',function(){
+        alert('Attention: Lost connection!');
+    });
 
      socket.emit('init',"");
 
@@ -227,7 +253,7 @@ script
                 var it=    $('#nvList').find('.selected');
                 var c=$('li').index(it);
                 if(c>-1)
-                    setTimeout(updateSteps(c),2000);
+                    setTimeout("updateSteps("+c+")","2000");
 
 
             });
@@ -243,7 +269,7 @@ script
 
         };
 
-    setTimeout(loadSlid,2000);
+    setTimeout("loadSlid","2000");
 
 
 //

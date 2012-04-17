@@ -6,9 +6,13 @@ var pages=new Array(new Array());
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , ObjectId = mongoose.SchemaTypes.ObjectId;
-
+var fs=require('fs');
+var conf=JSON.parse(fs.readFileSync('conf.json', 'utf-8'));
+console.log(conf['mongoUrl']);
 var GroupSchema= new Schema({
       id: String
+    , sessName: String
+    , date: Date
     , idg: Number
     , idp: Number
     , tit: String
@@ -25,7 +29,7 @@ var PageSchema= new Schema({
     , tit: String
 });
 
-mongoose.connect(' mongodb://root:a0k4f8mvW8p2i8NZngZm@softwarestartup-cgiardino-tradeoffs-0.dotcloud.com:26255/admin');
+mongoose.connect(conf['mongoUrl']);
 
 
 var reader = csv.createCsvFileReader('csv/groups.csv', {
@@ -95,6 +99,7 @@ function saveGroup(id){
 
             var group_data={
                 id:id
+                , sessName: ""
                 ,idg:group[j][0]
                 ,idp: group[j][1]
                 , tit: group[j][2]
@@ -114,7 +119,7 @@ function saveGroup(id){
                 }
             });
         }
-        console.log(id+" / groups saved")
+        console.log(id+" /groups saved")
 
 
 
@@ -173,6 +178,7 @@ function soc(){
 
             var group_data={
                 id:socket.id
+                , sessName: ""
                 ,idg: data[0]
                 ,idp: data[1]
                 , tit: data[2]
@@ -201,34 +207,52 @@ function soc(){
 
 
         socket.on('upgroupI',function(data){
-            console.log(socket.id+' /updated slider 1 data: '+ data);
+
             Group.update({id:socket.id,idg:data[0]}, {val1:data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
+                else
+                    console.log(socket.id+' /updated slider 1 data: '+ data);
             });
         });
 
         socket.on('upgroupF',function(data){
-            console.log(socket.id+' /updated slider 2 data: '+ data);
+
             Group.update({id:socket.id,idg:data[0]}, {val2:data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
-            });
+                else
+                    console.log(socket.id+' /updated slider 2 data: '+ data);
+                });
         });
 
         socket.on('arr',function(data){
-            console.log(socket.id+' /updated arrow data: '+ data);
+
             Group.update({id:socket.id,idg:data[0]}, {arr:data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
+                else
+                    console.log(socket.id+' /updated arrow data: '+ data);
             });
         });
 
         socket.on('delGroup',function(data){
-            console.log(socket.id+' /deleted group: '+ data);
+
             Group.update({id:socket.id,idg:data},{arr:-100,val1:-100,val2:-100}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
+                else
+                    console.log(socket.id+' /deleted group: '+ data);
+            });
+        });
+
+        socket.on('sessionName',function(data){
+            var now = new Date();
+            Group.update({id:socket.id}, {sessName:data, date:now}, {upsert: true,multi: true},function(err){
+                if(err)
+                    console.log(err);
+                else
+                    console.log(socket.id+' /sessionName: '+ data);
             });
         });
     });

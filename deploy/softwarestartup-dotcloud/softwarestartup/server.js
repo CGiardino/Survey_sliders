@@ -3,14 +3,16 @@ var io = require('socket.io');
 var csv = require('ya-csv');
 var group=new Array(new Array());
 var pages=new Array(new Array());
-
-
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , ObjectId = mongoose.SchemaTypes.ObjectId;
-
+var fs=require('fs');
+var conf=JSON.parse(fs.readFileSync('conf.json', 'utf-8'));
+console.log(conf['mongoUrl']);
 var GroupSchema= new Schema({
-      id: String
+    id: String
+    , sessName: String
+    , date: Date
     , idg: Number
     , idp: Number
     , tit: String
@@ -27,8 +29,7 @@ var PageSchema= new Schema({
     , tit: String
 });
 
-
-mongoose.connect(' mongodb://root:a0k4f8mvW8p2i8NZngZm@softwarestartup-cgiardino-tradeoffs-0.dotcloud.com:26255/admin');
+mongoose.connect(conf['mongoUrl']);
 
 
 var reader = csv.createCsvFileReader('csv/groups.csv', {
@@ -48,11 +49,11 @@ var z2=0;
 
 reader.addListener('data', function(data) {
 
-   if(data!=""){
-       group[z]=[z,data[0],data[1],data[2],data[3]];
+    if(data!=""){
+        group[z]=[z,data[0],data[1],data[2],data[3]];
 
-       z++;
-   }
+        z++;
+    }
 
 
 });
@@ -96,28 +97,30 @@ function saveGroup(id){
 
 
 
-            var group_data={
-                id:id
-                ,idg:group[j][0]
-                ,idp: group[j][1]
-                , tit: group[j][2]
-                , ext1: group[j][3]
-                , ext2: group[j][4]
-                ,val1:0
-                ,val2:0
-                ,arr:-100
+        var group_data={
+            id:id
+            , sessName: ""
+            ,idg:group[j][0]
+            ,idp: group[j][1]
+            , tit: group[j][2]
+            , ext1: group[j][3]
+            , ext2: group[j][4]
+            ,val1:0
+            ,val2:0
+            ,arr:-100
+
+        }
+        var mongogroup=new Group(group_data);
+
+        mongogroup.save(function(err, mongogroup){
+            if(err){
+                throw err;
+                console.log(err);
 
             }
-            var mongogroup=new Group(group_data);
-
-            mongogroup.save(function(err, mongogroup){
-                if(err){
-                    throw err;
-                    console.log(err);
-                }
-            });
-        }
-        console.log(id+" / groups saved")
+        });
+    }
+    console.log(id+" /groups saved")
 
 
 
@@ -176,6 +179,7 @@ function soc(){
 
             var group_data={
                 id:socket.id
+                , sessName: ""
                 ,idg: data[0]
                 ,idp: data[1]
                 , tit: data[2]
@@ -204,46 +208,69 @@ function soc(){
 
 
         socket.on('upgroupI',function(data){
-            console.log(socket.id+' /updated slider 1 data: '+ data);
+
             Group.update({id:socket.id,idg:data[0]}, {val1:data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
+                else
+                    console.log(socket.id+' /updated slider 1 data: '+ data);
             });
         });
 
         socket.on('upgroupF',function(data){
-            console.log(socket.id+' /updated slider 2 data: '+ data);
+
             Group.update({id:socket.id,idg:data[0]}, {val2:data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
+                else
+                    console.log(socket.id+' /updated slider 2 data: '+ data);
             });
         });
 
         socket.on('arr',function(data){
-            console.log(socket.id+' /updated arrow data: '+ data);
+
             Group.update({id:socket.id,idg:data[0]}, {arr:data[1]}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
+                else
+                    console.log(socket.id+' /updated arrow data: '+ data);
             });
         });
 
         socket.on('delGroup',function(data){
-            console.log(socket.id+' /deleted group: '+ data);
+
             Group.update({id:socket.id,idg:data},{arr:-100,val1:-100,val2:-100}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
+                else
+                    console.log(socket.id+' /deleted group: '+ data);
+            });
+        });
+
+        socket.on('sessionName',function(data){
+            var now = new Date();
+            Group.update({id:socket.id}, {sessName:data, date:now}, {upsert: true,multi: true},function(err){
+                if(err)
+                    console.log(err);
+                else
+                    console.log(socket.id+' /sessionName: '+ data);
             });
         });
     });
 
 
 }
+function is_mobile(req) {
+    var ua = req.header('user-agent');
+    if (/mobile/i.test(ua)) return true;
+    else return false;
+};
 
 app.get('/', function (req, res) {
+    if(is_mobile(req))res.render('index',{layout:'layout'});
 
-
-
-    res.render('index');
+    else
+        res.render('index',{title:"c",name:"normal"});
 
 
 });

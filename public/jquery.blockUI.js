@@ -103,7 +103,7 @@
         // styles for the overlay
         overlayCSS:  {
             backgroundColor: '#000',
-            opacity:	  	 0.6,
+            opacity:	  	 0.8,
             cursor:		  	 'wait'
         },
 
@@ -153,7 +153,7 @@
         fadeIn:  200,
 
         // fadeOut time in millis; set to 0 to disable fadeOut on unblock
-        fadeOut:  400,
+        fadeOut:  600,
 
         // time in millis to wait before auto-unblocking; set to 0 to disable auto-unblock
         timeout: 0,
