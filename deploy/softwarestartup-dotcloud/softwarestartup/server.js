@@ -10,7 +10,7 @@ var fs=require('fs');
 var conf=JSON.parse(fs.readFileSync('conf.json', 'utf-8'));
 console.log(conf['mongoUrl']);
 var GroupSchema= new Schema({
-    id: String
+      id: String
     , sessName: String
     , date: Date
     , idg: Number
@@ -49,11 +49,11 @@ var z2=0;
 
 reader.addListener('data', function(data) {
 
-    if(data!=""){
-        group[z]=[z,data[0],data[1],data[2],data[3]];
+   if(data!=""){
+       group[z]=[z,data[0],data[1],data[2],data[3]];
 
-        z++;
-    }
+       z++;
+   }
 
 
 });
@@ -97,30 +97,29 @@ function saveGroup(id){
 
 
 
-        var group_data={
-            id:id
-            , sessName: ""
-            ,idg:group[j][0]
-            ,idp: group[j][1]
-            , tit: group[j][2]
-            , ext1: group[j][3]
-            , ext2: group[j][4]
-            ,val1:0
-            ,val2:0
-            ,arr:-100
-
-        }
-        var mongogroup=new Group(group_data);
-
-        mongogroup.save(function(err, mongogroup){
-            if(err){
-                throw err;
-                console.log(err);
+            var group_data={
+                id:id
+                , sessName: ""
+                ,idg:group[j][0]
+                ,idp: group[j][1]
+                , tit: group[j][2]
+                , ext1: group[j][3]
+                , ext2: group[j][4]
+                ,val1:0
+                ,val2:0
+                ,arr:-100
 
             }
-        });
-    }
-    console.log(id+" /groups saved")
+            var mongogroup=new Group(group_data);
+
+            mongogroup.save(function(err, mongogroup){
+                if(err){
+                    throw err;
+                    console.log(err);
+                }
+            });
+        }
+        console.log(id+" /groups saved")
 
 
 
@@ -224,7 +223,7 @@ function soc(){
                     console.log(err);
                 else
                     console.log(socket.id+' /updated slider 2 data: '+ data);
-            });
+                });
         });
 
         socket.on('arr',function(data){

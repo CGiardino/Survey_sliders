@@ -1,12 +1,12 @@
 script
     $(document).ready(function() {
 
-            $.blockUI({message:$('#insertName')});
+            $('.blockUI').css("width","300px");
 
+            $.blockUI({message:$("#insertName")});
 
 
             $('#pl').click(function() {
-
                 $('#loginForm').find('input:text').val('');
                 $.blockUI({ message: $('#loginForm') });
 
@@ -36,24 +36,25 @@ script
 
     }
     function setSessionName(x){
-            var value=$(x).val();
-            if(value!=""){
-                $('#sess').html($(x).val());
-                $.unblockUI();
-                socket.emit("sessionName",value);
+               var value=$(x).val();
+               if(value!=""){
+                   $('#sess').html($(x).val());
+                   $.unblockUI();
+                   socket.emit("sessionName",value);
 
-            }
-        }
+               }
+           }
 
-#insertName(style="width:300px; display:none; ")
+#insertName(style=" display:none; ")
      tr
                         td
                             span Insert session name:
                         td
                             input(type="text",id="sessName",onkeydown="if (event.keyCode == 13 ) setSessionName(this)",style="margin-left:10px;")
 #header
-    #sessN
-        span#sess
+   #sessN
+       span#sess
+
 #wrapper
     #loginForm(style="display: none; height:180px;width:300px;")
         h3(style="text-align:center") Fill the form
@@ -230,12 +231,14 @@ script
         }
     var gi=0;
     var socket = io.connect();
+
     socket.on('disconnect', function() {
-        alert('Attention: Lost connection!');
-    });
+           setTimeout("alert('Attention: Lost connection!')",100);
+       });
+
 
     socket.on('close',function(){
-        alert('Attention: Lost connection!');
+        setTimeout("alert('Attention: Lost connection!')",100);
     });
 
      socket.emit('init',"");
@@ -253,7 +256,7 @@ script
                 var it=    $('#nvList').find('.selected');
                 var c=$('li').index(it);
                 if(c>-1)
-                    setTimeout("updateSteps("+c+")","2000");
+                    setTimeout('updateSteps('+c+')',2000);
 
 
             });
@@ -269,7 +272,7 @@ script
 
         };
 
-    setTimeout("loadSlid","2000");
+    setTimeout(loadSlid,2000);
 
 
 //
