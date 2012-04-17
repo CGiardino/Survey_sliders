@@ -1,12 +1,15 @@
 script
     $(document).ready(function() {
 
-            $.blockUI({message:"loading..."});
+            $.blockUI({message:$('#loading')});
             setTimeout($.unblockUI, 1500);
+
 
             $('#pl').click(function() {
                 $.blockUI({ message: $('#loginForm') });
+
             $('#sbm').click($.unblockUI);
+
 
             $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
             $('.blockOverlay').css('cursor','pointer');
@@ -30,23 +33,31 @@ script
 
 
     }
-
+#loading(style="width:300px; display:none")
+    span loading...
 #wrapper
-    #loginForm(style="display:none; height:165px")
+    #loginForm(style="display: none; height:180px;width:300px;")
         h3(style="text-align:center") Fill the form
 
         #content(style="text-align:left; margin-left:10px")
-
-            span Title
-            input(type="text",id="agt",style="margin-left:72px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
-            br
-            span Left Extreme
-            input(type="text",id="agl",style="margin-left:21px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
-            br
-            span Right Extreme
-            input(type="text",id="agr",style="margin-left:10px",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+            table(style="margin:auto")
+                tr
+                    td
+                        span Title
+                    td
+                        input(type="text",id="agt",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+                tr
+                    td
+                        span Left Extreme
+                    td
+                        input(type="text",id="agl",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
+                tr
+                    td
+                        span Right Extreme
+                    td
+                        input(type="text",id="agr",onkeydown="if (event.keyCode == 13) document.getElementById('sbm').click()")
         br
-        input(type="submit", id="sbm", value="Add",style="align:center; width:100px; height: 50px; cursor:pointer", onclick="addNew($('#agt').val(),$('#agl').val(),$('#agr').val())")
+        input(type="submit", id="sbm", value="Add",style="align:center; width:100px; height: 20px; cursor:pointer", onclick="addNew($('#agt').val(),$('#agl').val(),$('#agr').val())")
     #steps
         form#formElem(name="formElem", action="", method="post")
 
@@ -64,7 +75,7 @@ script
 
 
 
-#delwin(style="display:none; height:100px", onkeydown="if (event.keyCode == 13) document.getElementById('no').click()")
+#delwin(style="display:none; width:250px;height:100px", onkeydown="if (event.keyCode == 13) document.getElementById('no').click()")
                h3(style="text-align:center") Warning
 
                #content(style="text-align:center;")
@@ -73,8 +84,8 @@ script
 
                #btn(style="margin-top:20px")
 
-                    input(type="button", id="yes", value="Yes",style="align:center; width:100px; height: 70px; cursor:pointer;outline:none")
-                    input(type="button", id="no", value="Cancel",style="align:center; width:100px; height: 70px; cursor:pointer; margin-left:20px;")
+                    input(type="button", id="yes", value="Yes",style="align:center; width:100px; height: 20px; cursor:pointer;outline:none")
+                    input(type="button", id="no", value="Cancel",style="align:center; width:100px; height: 20px; cursor:pointer; margin-left:20px;")
 
 script
 
@@ -83,6 +94,7 @@ script
     function del(x){
 
                 $.blockUI({ message: $('#delwin') });
+
                 $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
                             $('.blockOverlay').css('cursor','pointer');
                             $('#delwin').css('cursor','pointer');

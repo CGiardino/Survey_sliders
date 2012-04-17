@@ -235,12 +235,17 @@ function soc(){
 
 
 }
+function is_mobile(req) {
+    var ua = req.header('user-agent');
+    if (/mobile/i.test(ua)) return true;
+    else return false;
+};
 
 app.get('/', function (req, res) {
+    if(is_mobile(req))res.render('index',{layout:'layout'});
 
-
-
-    res.render('index');
+    else
+        res.render('index',{title:"c",name:"normal"});
 
 
 });

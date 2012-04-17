@@ -54,7 +54,7 @@ function loadSlid() {
 		current = $this.parent().index() + 1;
         mycur=current-1;
         mygroup=$('#step'+mycur).find('.group:visible').length;
-        $('html body').animate({ scrollTop: 0 });
+        $('html,body').animate({ scrollTop: 0 });
        // $('#steps').css("height",(mygroup*212+80)+"px");
 
 		/*
