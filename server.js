@@ -107,7 +107,7 @@ function saveGroup(id){
                 , ext2: group[j][4]
                 ,val1:0
                 ,val2:0
-                ,arr:-100
+                ,arr:null
 
             }
             var mongogroup=new Group(group_data);
@@ -186,7 +186,7 @@ function soc(){
                 , ext2: data[4]
                 ,val1:0
                 ,val2:0
-                ,arr:-100
+                ,arr:null
 
             }
 
@@ -238,7 +238,7 @@ function soc(){
 
         socket.on('delGroup',function(data){
 
-            Group.update({id:socket.id,idg:data},{arr:-100,val1:-100,val2:-100}, {upsert: true},function(err){
+            Group.update({id:socket.id,idg:data},{arr:null,val1:null,val2:null}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
                 else
