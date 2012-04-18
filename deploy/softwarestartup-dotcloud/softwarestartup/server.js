@@ -263,7 +263,7 @@ function soc(){
 
                         if(groupU[i]["idg"]>=group.length)
                             socket.emit('group', [groupU[i]["idg"], groupU[i]["idp"],groupU[i]["tit"],groupU[i]["ext1"],groupU[i]["ext2"]]);
-                        socket.emit('groupUpSes',[groupU[i]["idg"], groupU[i]["val1"],groupU[i]["val2"],groupU[i]["arr"]]);
+                            socket.emit('groupUpSes',[groupU[i]["idg"], groupU[i]["val1"],groupU[i]["val2"],groupU[i]["arr"]]);
 
 
 
@@ -278,6 +278,7 @@ function soc(){
                 });
 
         });
+
     });
 
 

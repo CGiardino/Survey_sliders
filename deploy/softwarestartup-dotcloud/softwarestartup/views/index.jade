@@ -162,9 +162,9 @@ script
 
                 var item=$('<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><span class="ext i">'+ext1+'</span><div class="sld"><div id="sgi'+z+'"><img src="../images/lines.png" class="lines" ><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="rchange(this);"></div><div class="uno"><div id="sgf'+z+'"><img src="../images/lines.png" class="lines"><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="erchange(this);"></div></div></div><span class="ext f">'+ext2+'</span><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow" id="a0"><img src="../images/arrow1.png" onclick="change(this)" class="arrow" id="a1"><img src="../images/arrow2.png" onclick="change(this)" class="arrow" id="a2"></div><div id="ckbox"><input type="checkbox" name="valido" value="sgi'+z+'" onclick="mng($(this))"><input type="checkbox" name="valido" value="sgf'+z+'" onclick="mng($(this))"></div></div>').hide().fadeIn(2000);
                 $('#step'+step).append(item);
-                $(".group #sgi"+z+" :range").rangeinput();
+                $("#g"+z+" #sgi"+z+" :range").rangeinput();
 
-                $(".group .uno #sgf"+z+" :range").rangeinput();
+                $("#g"+z+" #sgf"+z+" :range").rangeinput();
 
 
                 z++;
@@ -253,14 +253,14 @@ script
 
 
     });
-    /*socket.on('disconnect', function() {
+    socket.on('disconnect', function() {
            setTimeout("alert('Attention: Lost connection!')",100);
        });
 
 
     socket.on('close',function(){
         setTimeout("alert('Attention: Lost connection!')",100);
-    });*/
+    });
 
      socket.emit('init',"");
 
