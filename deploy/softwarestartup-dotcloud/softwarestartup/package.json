@@ -33,7 +33,6 @@
         "socket.io":">=0.0.1",
         "ya-csv":">=0.0.1",
         "mongoose": ">=0.0.1"
-
     },
     "noAnalyze":true,
     "devDependencies":{

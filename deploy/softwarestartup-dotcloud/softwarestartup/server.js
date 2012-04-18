@@ -90,8 +90,9 @@ app.configure(function () {
 
 var Group=mongoose.model('groups', GroupSchema);
 
-function saveGroup(id){
+function saveGroup(id,sessName){
 
+    var now = new Date();
 
     for( var j=0;j<group.length;j++){
 
@@ -99,7 +100,8 @@ function saveGroup(id){
 
             var group_data={
                 id:id
-                , sessName: ""
+                , sessName: sessName
+                ,date: now
                 ,idg:group[j][0]
                 ,idp: group[j][1]
                 , tit: group[j][2]
@@ -107,7 +109,7 @@ function saveGroup(id){
                 , ext2: group[j][4]
                 ,val1:0
                 ,val2:0
-                ,arr:-100
+                ,arr:null
 
             }
             var mongogroup=new Group(group_data);
@@ -119,7 +121,7 @@ function saveGroup(id){
                 }
             });
         }
-        console.log(id+" /groups saved")
+        console.log(sessName+":"+id+" /groups saved")
 
 
 
@@ -161,7 +163,7 @@ function soc(){
     savePage();
     io.sockets.on('connection', function (socket) {
         socket.on("init",function(){
-            saveGroup(socket.id);
+
             for(var i=0;i<pages.length;i++){
                 socket.emit('step', pages[i]);
 
@@ -178,7 +180,7 @@ function soc(){
 
             var group_data={
                 id:socket.id
-                , sessName: ""
+                , sessName: data[5]
                 ,idg: data[0]
                 ,idp: data[1]
                 , tit: data[2]
@@ -186,7 +188,7 @@ function soc(){
                 , ext2: data[4]
                 ,val1:0
                 ,val2:0
-                ,arr:-100
+                ,arr:null
 
             }
 
@@ -238,7 +240,7 @@ function soc(){
 
         socket.on('delGroup',function(data){
 
-            Group.update({id:socket.id,idg:data},{arr:-100,val1:-100,val2:-100}, {upsert: true},function(err){
+            Group.update({id:socket.id,idg:data},{arr:null,val1:null,val2:null}, {upsert: true},function(err){
                 if(err)
                     console.log(err);
                 else
@@ -247,13 +249,34 @@ function soc(){
         });
 
         socket.on('sessionName',function(data){
-            var now = new Date();
-            Group.update({id:socket.id}, {sessName:data, date:now}, {upsert: true,multi: true},function(err){
-                if(err)
-                    console.log(err);
-                else
-                    console.log(socket.id+' /sessionName: '+ data);
-            });
+            var query= {sessName:data};
+            Group.find( query ,function(err,groupU){
+                if(groupU!=""){
+
+                    Group.update(query, {id:socket.id},{multi:true},function(err){
+                         if(err)
+                            console.log(err);
+                    })  ;
+
+                    for(var i=0;i<groupU.length;i++){
+
+
+                        if(groupU[i]["idg"]>=group.length)
+                            socket.emit('group', [groupU[i]["idg"], groupU[i]["idp"],groupU[i]["tit"],groupU[i]["ext1"],groupU[i]["ext2"]]);
+                        socket.emit('groupUpSes',[groupU[i]["idg"], groupU[i]["val1"],groupU[i]["val2"],groupU[i]["arr"]]);
+
+
+
+                    }
+
+                }
+                else{
+                    saveGroup(socket.id,data);
+
+                }
+
+                });
+
         });
     });
 

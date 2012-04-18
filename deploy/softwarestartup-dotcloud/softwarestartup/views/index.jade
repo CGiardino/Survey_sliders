@@ -83,11 +83,6 @@ script
 
 
 
-
-                //
-                    #footer
-                        img(src=('../images/pl.png'), class="plus", id="pl")
-
     img(src="../images/pl.png", id="pl", class="plus")
 
     #navigation(style="display:none;")
@@ -185,6 +180,7 @@ script
 
 
     function rchange(x){
+
         socket.emit('upgroupI',[$(x).parent().attr('id').substring(3), $(x).val()]);
 
     }
@@ -196,9 +192,9 @@ script
                 $($('#'+x.val())).css("visibility","hidden");
 
                 if($(x).val().substring(2,3)=="i")
-                    socket.emit('upgroupI',[$(x).val().substring(3), -100]);
+                    socket.emit('upgroupI',[$(x).val().substring(3), null]);
                 else
-                    socket.emit('upgroupF',[$(x).val().substring(3), -100]);
+                    socket.emit('upgroupF',[$(x).val().substring(3), null]);
                 }
             else{
                 $($('#'+x.val())).css("visibility","visible");
@@ -212,7 +208,7 @@ script
             if(x.style.border!=""){
                 x.style.border="";
                 x.style.background="";
-                socket.emit('arr',[$(x).parent().parent().attr('id').substring(1), -100]);
+                socket.emit('arr',[$(x).parent().parent().attr('id').substring(1), null]);
                 }
             else{
                 x.style.border="solid 1px blue";
@@ -232,14 +228,39 @@ script
     var gi=0;
     var socket = io.connect();
 
-    socket.on('disconnect', function() {
+    socket.on('groupUpSes',function(gUp){
+
+        if(gUp[1]==null){
+
+            $('#g'+gUp[0]+' #ckbox').children(':first-child').prop('checked',true);
+            $('#g'+gUp[0]+' #sgi'+gUp[0]).css("visibility","hidden");
+        }
+        else
+            $('#g'+gUp[0]+' .slider').first().data("rangeinput").setValue(gUp[1]);
+
+        if(gUp[2]==null){
+            $('#g'+gUp[0]+' #ckbox').children(':nth-child(2)').prop('checked',true);
+            $('#g'+gUp[0]+' #sgf'+gUp[0]).css("visibility","hidden");
+        }
+        else
+            $('#g'+gUp[0]+' .slider').last().data("rangeinput").setValue(gUp[2]);
+        if(gUp[3]!=null){
+            $('#g'+gUp[0]+" #a"+gUp[3]).css("border","solid 1px blue");
+            $('#g'+gUp[0]+" #a"+gUp[3]).css("background","#f1bf84");
+        }
+
+
+
+
+    });
+    /*socket.on('disconnect', function() {
            setTimeout("alert('Attention: Lost connection!')",100);
        });
 
 
     socket.on('close',function(){
         setTimeout("alert('Attention: Lost connection!')",100);
-    });
+    });*/
 
      socket.emit('init',"");
 
@@ -264,7 +285,7 @@ script
 
     function addNew(title, left, right){
             var it=    $('#nvList').find('.selected');
-            socket.emit('addgroup', [gi,$('li').index(it),title,left,right]);
+            socket.emit('addgroup', [gi,$('li').index(it),title,left,right,$('#sess').html()]);
             addgroup(gi,$('li').index(it),title,left,right);
 
 
@@ -272,22 +293,5 @@ script
 
         };
 
+
     setTimeout(loadSlid,2000);
-
-
-//
-    .group
-         h3.tt PROVA
-         span.ext.i pdsogndnrova
-         .sld
-             img.lines(src=('../images/lines.png'));
-             input(type="range", name="test",min="-5",max="5",value="0",step="1")
-             img.lines(src=('../images/lines.png'));
-             .uno
-                  input(type="range", name="test",min="-5",max="5",value="0",step="1")
-         span.ext.f provadslgkndlksnglln
-         #arrows
-             img.arrow(src=('../images/arrow0.png'), onclick="change(this)")
-             img.arrow(src=('../images/arrow1.png'), onclick="change(this)")
-             img.arrow(src=('../images/arrow2.png'), onclick="change(this)")
-    <br/>
