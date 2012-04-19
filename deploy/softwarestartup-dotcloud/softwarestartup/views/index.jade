@@ -1,6 +1,10 @@
 script
     $(document).ready(function() {
-
+            $("#wrapper").fadeIn()
+                            .css({top:4000,position:'relative'})
+                            .animate({top:0}, 2000, function() {
+                                $('html,body').animate({ scrollTop: 0 });
+                            });
             $('.blockUI').css("width","300px");
 
             $.blockUI({message:$("#insertName")});
@@ -21,7 +25,33 @@ script
 
             var max = $( ".slider" ).slider( "option", "max" );
 
+        var xhr = {
+            errorCode: 'timeout',
+            callInProgress: function (xmlhttp) {
+                switch (xmlhttp.readyState) {
+                    case 1: case 2: case 3:
+                        return true;
+                    // Case 4 and 0
+                    default:
+                        return false;
+                }
+            }
+        };
+
+
         });
+    function offDet(){
+       if(!(navigator.onLine)){
+            alert("Hello, your browser seems to be offline...");
+            clearInterval(timeInt);
+            setTimeout(setIn,60000);
+            }
+    }
+    var timeInt;
+    function setIn(){
+        timeInt=setInterval(offDet,1000);
+    }
+    setIn();
     function updateSteps(st){
 
         var mygroup=$('#step'+st).find('.group:visible').length;
@@ -45,7 +75,7 @@ script
                }
            }
 
-#insertName(style=" display:none; ")
+#insertName(style=" display:none;width:350px ")
      tr
                         td
                             span Insert session name:
@@ -253,10 +283,11 @@ script
 
 
     });
-    socket.on('disconnect', function() {
+
+    /*socket.on('disconnect', function() {
            setTimeout("alert('Attention: Lost connection!')",100);
        });
-
+    */
 
     socket.on('close',function(){
         setTimeout("alert('Attention: Lost connection!')",100);
