@@ -10,7 +10,7 @@ var fs=require('fs');
 var conf=JSON.parse(fs.readFileSync('conf.json', 'utf-8'));
 console.log(conf['mongoUrl']);
 var GroupSchema= new Schema({
-      id: String
+    id: String
     , sessName: String
     , date: Date
     , idg: Number
@@ -49,11 +49,11 @@ var z2=0;
 
 reader.addListener('data', function(data) {
 
-   if(data!=""){
-       group[z]=[z,data[0],data[1],data[2],data[3]];
+    if(data!=""){
+        group[z]=[z,data[0],data[1],data[2],data[3]];
 
-       z++;
-   }
+        z++;
+    }
 
 
 });
@@ -98,30 +98,30 @@ function saveGroup(id,sessName){
 
 
 
-            var group_data={
-                id:id
-                , sessName: sessName
-                ,date: now
-                ,idg:group[j][0]
-                ,idp: group[j][1]
-                , tit: group[j][2]
-                , ext1: group[j][3]
-                , ext2: group[j][4]
-                ,val1:0
-                ,val2:0
-                ,arr:null
+        var group_data={
+            id:id
+            , sessName: sessName
+            ,date: now
+            ,idg:group[j][0]
+            ,idp: group[j][1]
+            , tit: group[j][2]
+            , ext1: group[j][3]
+            , ext2: group[j][4]
+            ,val1:0
+            ,val2:0
+            ,arr:null
 
-            }
-            var mongogroup=new Group(group_data);
-
-            mongogroup.save(function(err, mongogroup){
-                if(err){
-                    throw err;
-                    console.log(err);
-                }
-            });
         }
-        console.log(sessName+":"+id+" /groups saved")
+        var mongogroup=new Group(group_data);
+
+        mongogroup.save(function(err, mongogroup){
+            if(err){
+                throw err;
+                console.log(err);
+            }
+        });
+    }
+    console.log(sessName+":"+id+" /groups saved")
 
 
 
@@ -225,7 +225,7 @@ function soc(){
                     console.log(err);
                 else
                     console.log(socket.id+' /updated slider 2 data: '+ data);
-                });
+            });
         });
 
         socket.on('arr',function(data){
@@ -254,7 +254,7 @@ function soc(){
                 if(groupU!=""){
 
                     Group.update(query, {id:socket.id},{multi:true},function(err){
-                         if(err)
+                        if(err)
                             console.log(err);
                     })  ;
 
@@ -263,7 +263,7 @@ function soc(){
 
                         if(groupU[i]["idg"]>=group.length)
                             socket.emit('group', [groupU[i]["idg"], groupU[i]["idp"],groupU[i]["tit"],groupU[i]["ext1"],groupU[i]["ext2"]]);
-                            socket.emit('groupUpSes',[groupU[i]["idg"], groupU[i]["val1"],groupU[i]["val2"],groupU[i]["arr"]]);
+                        socket.emit('groupUpSes',[groupU[i]["idg"], groupU[i]["val1"],groupU[i]["val2"],groupU[i]["arr"]]);
 
 
 
@@ -275,10 +275,9 @@ function soc(){
 
                 }
 
-                });
+            });
 
         });
-
     });
 
 
@@ -290,10 +289,10 @@ function is_mobile(req) {
 };
 
 app.get('/', function (req, res) {
-    if(is_mobile(req))res.render('index',{layout:'layout'});
+    if(is_mobile(req))res.render('index');
 
     else
-        res.render('index',{title:"c",name:"normal"});
+        res.render('index');
 
 
 });

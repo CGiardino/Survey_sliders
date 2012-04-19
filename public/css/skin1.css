@@ -202,4 +202,14 @@
 #sessN{
     float: right;
     margin-right: 50px;
+    margin-top: 10px;
+
+}
+#sess{
+    font-size:20px;
+}
+#onlineStatus{
+    float: left;
+    margin-left: 50px;
+    color: red;
 }

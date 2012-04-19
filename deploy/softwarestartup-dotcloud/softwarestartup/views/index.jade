@@ -40,18 +40,8 @@ script
 
 
         });
-    function offDet(){
-       if(!(navigator.onLine)){
-            alert("Hello, your browser seems to be offline...");
-            clearInterval(timeInt);
-            setTimeout(setIn,60000);
-            }
-    }
-    var timeInt;
-    function setIn(){
-        timeInt=setInterval(offDet,1000);
-    }
-    setIn();
+
+
     function updateSteps(st){
 
         var mygroup=$('#step'+st).find('.group:visible').length;
@@ -82,6 +72,7 @@ script
                         td
                             input(type="text",id="sessName",onkeydown="if (event.keyCode == 13 ) setSessionName(this)",style="margin-left:10px;")
 #header
+   span#onlineStatus
    #sessN
        span#sess
 
@@ -284,41 +275,51 @@ script
 
     });
 
-    /*socket.on('disconnect', function() {
-           setTimeout("alert('Attention: Lost connection!')",100);
+    socket.on('disconnect', function() {
+           setTimeout("alert('Attention: Disconnected from Server !')",100);
+           $('#onlineStatus').html('Disconnected from Server !');
        });
-    */
+    socket.on('reconnect', function(){
+        setTimeout("alert('Attention: Reconnected to Server, reload the page with your session name: '+$('#sess').html())",100);
 
+        $('#onlineStatus').html('Reconnected to Server, reload the page with your session name: '+ $('#sess').html());
+
+    });
+    socket.on('reconnect_failed', function(){
+        setTimeout("alert('Attention: Reconnection failed from Server !')",100);
+        $('#onlineStatus').html('Reconnection failed from Server !');
+    });
     socket.on('close',function(){
-        setTimeout("alert('Attention: Lost connection!')",100);
+        setTimeout("alert('Attention: Closed connection from Server !')",100);
+        $('#onlineStatus').html('Attention: Closed connection from Server !');
     });
 
-     socket.emit('init',"");
+    socket.emit('init',"");
 
 
 
-           socket.on('step',function(step){
-                addstep(step[0],step[1]);
+    socket.on('step',function(step){
+        addstep(step[0],step[1]);
 
-            });
-            socket.on('group', function (group) {
-
-
-                addgroup(group[0],group[1],group[2],group[3],group[4]);
-                var it=    $('#nvList').find('.selected');
-                var c=$('li').index(it);
-                if(c>-1)
-                    setTimeout('updateSteps('+c+')',2000);
+    });
+    socket.on('group', function (group) {
 
 
-            });
+        addgroup(group[0],group[1],group[2],group[3],group[4]);
+        var it=    $('#nvList').find('.selected');
+        var c=$('li').index(it);
+        if(c>-1)
+            setTimeout('updateSteps('+c+')',2000);
+
+
+    });
 
 
     function addNew(title, left, right){
             var it=    $('#nvList').find('.selected');
             socket.emit('addgroup', [gi,$('li').index(it),title,left,right,$('#sess').html()]);
             addgroup(gi,$('li').index(it),title,left,right);
-
+            $('html,body').animate({ scrollTop: $(document).height() });
 
 
 

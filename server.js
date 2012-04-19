@@ -289,10 +289,10 @@ function is_mobile(req) {
 };
 
 app.get('/', function (req, res) {
-    if(is_mobile(req))res.render('index',{layout:'layout'});
+    if(is_mobile(req))res.render('index');
 
     else
-        res.render('index',{title:"c",name:"normal"});
+        res.render('index');
 
 
 });
