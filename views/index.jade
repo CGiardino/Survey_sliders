@@ -275,15 +275,9 @@ script
 
     });
 
-    socket.on('disconnect', function() {
-           setTimeout("alert('Attention: Disconnected from Server !')",100);
-           $('#onlineStatus').html('Disconnected from Server !');
-       });
-    socket.on('reconnect', function(){
-        setTimeout("alert('Attention: Reconnected to Server, reload the page with your session name: '+$('#sess').html())",100);
-
-        $('#onlineStatus').html('Reconnected to Server, reload the page with your session name: '+ $('#sess').html());
-
+    window.addEventListener("offline", function() {
+        setTimeout("alert('Attention: your browser seems offline !')",100);
+        $('#onlineStatus').html('Your browser seems offline!');
     });
     socket.on('reconnect_failed', function(){
         setTimeout("alert('Attention: Reconnection failed from Server !')",100);
@@ -319,7 +313,7 @@ script
             var it=    $('#nvList').find('.selected');
             socket.emit('addgroup', [gi,$('li').index(it),title,left,right,$('#sess').html()]);
             addgroup(gi,$('li').index(it),title,left,right);
-             $('html,body').animate({ scrollTop: $(document).height() });
+            $('html,body').animate({ scrollTop: $(document).height() });
 
 
 

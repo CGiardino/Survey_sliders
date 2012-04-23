@@ -1,25 +1,25 @@
-0,Design Artifacts ,min,max
-0,Code Documentation ,min,max      
-0,Test Case,min,max  
-0,Code coverage,min,max  
-1,Elicitation report ,min,max      
-1,Traceability ,min,max      
-2,User experience ,min,max      
-2,Maintainability ,min,max      
-2,Portability,min,max      
-2,Performance ,min,max      
-3,User experience ,min,max      
-3,Maintainability ,min,max      
-3,Portability,min,max    
-3,Performance ,min,max      
-4,User experience ,min,max      
-4,Maintainability ,min,max      
-4,Portability,min,max      
-4,Performance ,min,max      
-5,User experience ,min,max      
-5,Maintainability ,min,max      
-5,Portability,min,max  
-5,Performance ,min,max 
-6,Internazionalization ,min,max 
-6,Time-to-Market ,min,max 
-6,Coffee quality,min,max 
+0,Design Artifacts ,0
+0,Code Documentation ,0
+0,Test Case,0
+0,Code coverage,0
+1,Elicitation report ,0
+1,Traceability ,0
+2,User experience ,0
+2,Maintainability ,0
+2,Portability,0
+2,Performance ,0
+3,User experience ,0
+3,Maintainability ,0
+3,Portability,0
+3,Performance ,0
+4,User experience ,0
+4,Maintainability ,0
+4,Portability,0
+4,Performance ,0
+5,User experience ,0
+5,Maintainability ,0
+5,Portability,0
+5,Performance ,0
+6,Internazionalization ,0
+6,Time-to-Market ,0
+6,Coffee quality,0
