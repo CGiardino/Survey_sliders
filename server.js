@@ -199,6 +199,10 @@ function soc(){
                 socket.emit('group', group[i]);
 
             }
+
+            for(var i=0;i<exts.length;i++){
+                socket.emit('ext',[exts[i][0],exts[i][3],exts[i][4]]);
+            }
         });
 
         socket.on('addgroup',function(data){
@@ -233,6 +237,7 @@ function soc(){
             });
 
         });
+
 
 
         socket.on('upgroupI',function(data){
