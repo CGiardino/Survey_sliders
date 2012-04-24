@@ -1,8 +1,10 @@
 var express = require('express');
 var io = require('socket.io');
 var csv = require('ya-csv');
+var groupData= new Array(new Array());
 var group=new Array(new Array());
 var pages=new Array(new Array());
+var exts= new Array(new Array());
 var mongoose = require('mongoose')
     , Schema = mongoose.Schema
     , ObjectId = mongoose.SchemaTypes.ObjectId;
@@ -10,7 +12,7 @@ var fs=require('fs');
 var conf=JSON.parse(fs.readFileSync('conf.json', 'utf-8'));
 console.log(conf['mongoUrl']);
 var GroupSchema= new Schema({
-    id: String
+      id: String
     , sessName: String
     , date: Date
     , idg: Number
@@ -31,6 +33,12 @@ var PageSchema= new Schema({
 
 mongoose.connect(conf['mongoUrl']);
 
+var reader3 = csv.createCsvFileReader('csv/extremes.csv', {
+    'separator': ',',
+    'quote': '"',
+    'escape': '"',
+    'comment': '#'
+});
 
 var reader = csv.createCsvFileReader('csv/groups.csv', {
     'separator': ',',
@@ -44,34 +52,41 @@ var reader2 = csv.createCsvFileReader('csv/pages.csv', {
     'escape': '"',
     'comment': '#'
 });
+
+var zD=0;
 var z=0;
 var z2=0;
+var z3=0;
+
+reader3.addListener('data', function(data){
+    if(data!=""){
+        exts[z3]=data;
+        z3++;
+
+    }
+});
+
+
 
 reader.addListener('data', function(data) {
+   if(data!=""){
+       var done=false;
+       groupData[zD]=data;
 
-    if(data!=""){
-        group[z]=[z,data[0],data[1],data[2],data[3]];
-
-        z++;
-    }
-
-
+       zD++;
+   }
 });
-
-
-
 
 reader2.addListener('data', function(data) {
-
     if(data!=""){
         pages[z2]=data;
-
         z2++;
     }
-
-
 });
 reader2.addListener('end',soc);
+
+
+
 var app = express.createServer(
     express.bodyParser()
     , express.static(__dirname + "/public")
@@ -79,6 +94,7 @@ var app = express.createServer(
     , express.session({ secret:'desrever'})
 ),io = io.listen(app);
 io.set('log level', 1);
+
 
 app.configure(function () {
     app.set('views', __dirname + '/views');
@@ -98,30 +114,30 @@ function saveGroup(id,sessName){
 
 
 
-        var group_data={
-            id:id
-            , sessName: sessName
-            ,date: now
-            ,idg:group[j][0]
-            ,idp: group[j][1]
-            , tit: group[j][2]
-            , ext1: group[j][3]
-            , ext2: group[j][4]
-            ,val1:0
-            ,val2:0
-            ,arr:null
+            var group_data={
+                id:id
+                , sessName: sessName
+                ,date: now
+                ,idg:group[j][0]
+                ,idp: group[j][1]
+                , tit: group[j][2]
+                , ext1: group[j][3]
+                , ext2: group[j][4]
+                ,val1:0
+                ,val2:0
+                ,arr:null
 
-        }
-        var mongogroup=new Group(group_data);
-
-        mongogroup.save(function(err, mongogroup){
-            if(err){
-                throw err;
-                console.log(err);
             }
-        });
-    }
-    console.log(sessName+":"+id+" /groups saved")
+            var mongogroup=new Group(group_data);
+
+            mongogroup.save(function(err, mongogroup){
+                if(err){
+                    throw err;
+                    console.log(err);
+                }
+            });
+        }
+        console.log(sessName+":"+id+" /groups saved")
 
 
 
@@ -160,6 +176,17 @@ function savePage(){
 
 function soc(){
 
+    for(var j=0;j<exts.length ;j++){
+
+        for(var i=0;i<groupData.length ;i++){
+
+            if(groupData[i][2]==exts[j][0])  {
+                group[z]=[z,groupData[i][0],groupData[i][1],exts[j][1],exts[j][2]];
+                z++;
+            }
+        }
+
+    }
     savePage();
     io.sockets.on('connection', function (socket) {
         socket.on("init",function(){
@@ -171,6 +198,10 @@ function soc(){
             for(var i=0;i<group.length;i++){
                 socket.emit('group', group[i]);
 
+            }
+
+            for(var i=0;i<exts.length;i++){
+                socket.emit('ext',[exts[i][0],exts[i][3],exts[i][4]]);
             }
         });
 
@@ -208,6 +239,7 @@ function soc(){
         });
 
 
+
         socket.on('upgroupI',function(data){
 
             Group.update({id:socket.id,idg:data[0]}, {val1:data[1]}, {upsert: true},function(err){
@@ -225,7 +257,7 @@ function soc(){
                     console.log(err);
                 else
                     console.log(socket.id+' /updated slider 2 data: '+ data);
-            });
+                });
         });
 
         socket.on('arr',function(data){
@@ -254,7 +286,7 @@ function soc(){
                 if(groupU!=""){
 
                     Group.update(query, {id:socket.id},{multi:true},function(err){
-                        if(err)
+                         if(err)
                             console.log(err);
                     })  ;
 
@@ -275,7 +307,7 @@ function soc(){
 
                 }
 
-            });
+                });
 
         });
     });

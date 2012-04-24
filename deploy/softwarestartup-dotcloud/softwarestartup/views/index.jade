@@ -39,6 +39,7 @@ script
         };
 
 
+
         });
 
 
@@ -181,7 +182,7 @@ script
 
 
 
-                var item=$('<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><span class="ext i">'+ext1+'</span><div class="sld"><div id="sgi'+z+'"><img src="../images/lines.png" class="lines" ><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="rchange(this);"></div><div class="uno"><div id="sgf'+z+'"><img src="../images/lines.png" class="lines"><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="erchange(this);"></div></div></div><span class="ext f">'+ext2+'</span><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow" id="a0"><img src="../images/arrow1.png" onclick="change(this)" class="arrow" id="a1"><img src="../images/arrow2.png" onclick="change(this)" class="arrow" id="a2"></div><div id="ckbox"><input type="checkbox" name="valido" value="sgi'+z+'" onclick="mng($(this))"><input type="checkbox" name="valido" value="sgf'+z+'" onclick="mng($(this))"></div></div>').hide().fadeIn(2000);
+                var item=$('<div class="group" id="g'+z+'"><img class="cross" src="../images/cross.png" onclick="del(this);"><h3 class="tt">'+title+'</h3><div class="bubbleInfo"><span class="trigger ext i">'+ext1+'</span><div class="popup"></div></div><div class="sld"><div id="sgi'+z+'"><img src="../images/lines.png" class="lines" ><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="rchange(this);"></div><div class="uno"><div id="sgf'+z+'"><img src="../images/lines.png" class="lines"><input type="range" name="test" min="-5" max="5" value="0" step="1" onchange="erchange(this);"></div></div></div><div id="ftlp" class="bubbleInfo"><span class="trigger ext f">'+ext2+'</span><div class="popup"></div></div><div id="arrows"><img src="../images/arrow0.png" onclick="change(this)" class="arrow" id="a0"><img src="../images/arrow1.png" onclick="change(this)" class="arrow" id="a1"><img src="../images/arrow2.png" onclick="change(this)" class="arrow" id="a2"></div><div id="ckbox"><input type="checkbox" name="valido" value="sgi'+z+'" onclick="mng($(this))"><input type="checkbox" name="valido" value="sgf'+z+'" onclick="mng($(this))"></div></div>').hide().fadeIn(2000);
                 $('#step'+step).append(item);
                 $("#g"+z+" #sgi"+z+" :range").rangeinput();
 
@@ -299,15 +300,24 @@ script
     socket.on('group', function (group) {
 
 
-        addgroup(group[0],group[1],group[2],group[3],group[4]);
+        addgroup(group[0],group[1],group[2],group[3],group[4]); //group_id;page_id;title;ext1;ext2;
         var it=    $('#nvList').find('.selected');
         var c=$('li').index(it);
+
+
         if(c>-1)
             setTimeout('updateSteps('+c+')',2000);
 
 
     });
 
+    socket.on('ext',function(ext){
+
+        $($('#g'+ext[0]+' .bubbleInfo .popup')[0]).html(ext[1]);
+        $($('#g'+ext[0]+' .bubbleInfo .popup')[1]).html(ext[2]);
+        pop(ext[0]);
+
+    });
 
     function addNew(title, left, right){
             var it=    $('#nvList').find('.selected');

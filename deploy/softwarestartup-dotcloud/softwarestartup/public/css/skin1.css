@@ -118,29 +118,59 @@
     -webkit-border-radius:14px;
 
 }
+.bubbleInfo{
+    position:relative;
+
+}
+.bubbleInfo#ftlp{
+    margin-left:400px;
+}
+.popup{
+    background:#f9f9f9;
+    position:absolute;
+    min-height: 30px;
+    max-width: 300px;
+    overflow: auto;
+    display:none;
+    z-index:50;
+    margin-left:50px;
+    margin-top:1px;
+    padding: 10px;
+    border:1px solid #000;
+    border-color: #3C72E6;
+    -moz-box-shadow:0 0 6px #000;
+    -webkit-box-shadow:0 0 6px #000;
+    -moz-border-radius:14px;
+    -webkit-border-radius:14px;
+}
 .ext{
-    margin-top: 30px;
-    height:50px;
+    margin-top: 0px;
+    padding-top: 30px;
+    height:100px;
     float:left;
     width:100px;
     overflow:auto;
+
+}
+.bubbleInfo:hover{
+    cursor:pointer;
 }
 .ext.i{
     text-align: right;
     margin-left: 20px;
+    padding-right: 50px;
 }
 .ext.f{
     text-align: left;
-
+    padding-left: 50px;
 }
+
 
 .sld{
     width: 400px;
     position:relative;
-    margin-right: 50px;
-    padding-left: 0px;
     float: left;
-    margin-left: 50px;
+
 }
 .group .uno .handle {
     background:#1ba42e url(../images/h30.png) repeat-x 0 0;
