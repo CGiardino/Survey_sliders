@@ -308,16 +308,11 @@ script
         if(c>-1)
             setTimeout('updateSteps('+c+')',2000);
 
-
+        $($('#g'+group[0]+' .bubbleInfo .popup')[0]).html(group[5]);
+        $($('#g'+group[0]+' .bubbleInfo .popup')[1]).html(group[6]);
+                pop(group[0]);
     });
 
-    socket.on('ext',function(ext){
-        console.log(  $('#g'+ext[0]+' .bubbleInfo .popup'));
-        $($('#g'+ext[0]+' .bubbleInfo .popup')[0]).html(ext[1]);
-        $($('#g'+ext[0]+' .bubbleInfo .popup')[1]).html(ext[2]);
-        pop(ext[0]);
-
-    });
 
     function addNew(title, left, right){
             var it=    $('#nvList').find('.selected');
