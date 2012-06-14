@@ -181,7 +181,7 @@ function soc(){
         for(var i=0;i<groupData.length ;i++){
 
             if(groupData[i][2]==exts[j][0])  {
-                group[z]=[z,groupData[i][0],groupData[i][1],exts[j][1],exts[j][2]];
+                group[z]=[z,groupData[i][0],groupData[i][1],exts[j][1],exts[j][2],exts[j][3],exts[j][4]];
                 z++;
             }
         }
@@ -200,9 +200,6 @@ function soc(){
 
             }
 
-            for(var i=0;i<exts.length;i++){
-                socket.emit('ext',[exts[i][0],exts[i][3],exts[i][4]]);
-            }
         });
 
         socket.on('addgroup',function(data){
