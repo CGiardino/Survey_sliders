@@ -1,0 +1,5 @@
+The description of the csv file structure is as follows:
+
+pages: IDPage, Page name
+extremes: IDExtreme, Left Extreme , Right Extreme , Left Tooltip, Right Tooltip
+groups: IDPage, Artifact name, ExtremeID
