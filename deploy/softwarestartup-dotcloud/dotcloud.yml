@@ -1,5 +1,0 @@
-www:
-  type: nodejs
-  approot: softwarestartup
-tradeoffs:
-  type: mongodb
