@@ -1,2 +1,3 @@
-This repository is under the MIT License. The demo is available at: http://softwarestartup-cgiardino.dotcloud.com 
-By it you can customize sliders for remote interview, online survey or whatever you think of.
+This repository is under the MIT License. Survey_sliders allows to have an online survey with customized sliders. Used to run an online survey for my master thesis. The technology is based on Node.js and Mongodb lato back-end.
+
+The demo is available at: http://softwarestartup-cgiardino.dotcloud.com (last access 09/10/2012)
